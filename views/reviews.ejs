@@ -1,0 +1,74 @@
+<head>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <%- include('layouts/header')-%>
+    <div id="popup"></div>
+    <form action="users/signup" method="post" id="signupForm">
+        <div class="x-button"></div>
+        <fieldset>
+            <legend>Sign Up</legend>
+            <label for="username">Username</label><br>
+            <input type="text" id="username" name="username" autocomplete="off"><br>
+            <label for="password">Password</label><br>
+            <input type="text" id="password" name="password" autocomplete="off"><br>
+            <label for="email">Email</label><br>
+            <input type="text" id="email" name="email" autocomplete="off"><br>
+            <input type="submit" value="Submit">
+        </fieldset>
+    </form>
+    <form action="users/login" method="post" id="loginForm">
+        <div class="x-button"></div>
+        <fieldset>
+            <legend>Log in</legend>
+            <label for="username">Username</label><br>
+            <input type="text" id="username" name="username" autocomplete="off"><br>
+            <label for="password">Password</label><br>
+            <input type="text" id="password" name="password" autocomplete="off"><br>
+            <input type="submit" value="Submit">
+        </fieldset>
+    </form>
+    <form action="reviews/create" method="post" encType="multipart/form-data" id="postForm">
+        <div class="x-button"></div>
+        <fieldset>
+            <legend>Make A Post</legend>
+            <div id="preview"></div>
+            <label for="title">Title</label><br>
+            <input type="text" name="title" autocomplete="off"><br>
+            <label for="text">Text</label><br>
+            <textarea name="text" rows="4" cols="50" autocomplete="off"></textarea><br>
+            <input type="file" id="image" name="image"><br>
+            <input type="submit" value="Submit">
+        </fieldset>
+    </form>
+    <form action="users/logout" method="get" id="logoutForm">
+        <fieldset>
+            <legend>Logout?</legend>
+            <div class="x-button"></div>
+            <input type="submit" value="Confirm">
+        </fieldset>
+    </form>
+    <form action="#" method="post" id="profileForm">
+        <fieldset>
+            <legend>Profile</legend>
+            <div class="x-button"></div>
+        </fieldset>
+    </form>
+    <main style="display: inline-block; width: 100%;">
+        <% for (var i = 0; i < reviewArray.length; i++) { %>
+            <div style="border-style: solid; width: 700px; display: inline-block;">
+                <div style="float: left; width: 40%;">
+                    <img src="<%= '../../images/' + reviewArray[i].image %>" width="300px" height="300px">
+                </div>
+                <div style="float: right; width:55%">
+                    <h1 style="display: inline-block;" "><%= reviewArray[i].title %></h1>
+                    <h2 style="display: inline-block;" "><%= reviewArray[i].text %></h2>
+                </div>
+            </div>
+        <% } %>
+    </main>
+    <p id="logged-in">Logged in: <span><%= !!login%></span></p>
+</body>
+<footer>
+    <script src="scripts/script.js"></script> 
+</footer>

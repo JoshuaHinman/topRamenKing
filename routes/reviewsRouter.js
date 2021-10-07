@@ -30,7 +30,7 @@ function authMiddleware (req, res, next) {
 //Get all
 router.get('/', async (req, res) => {
     try {
-        const reviewArray = await Review.find({}, (err, reviews) => {console.log(err)}).exec()
+        const reviewArray = await Review.find({}).populate('userid')
         res.render('reviews', {reviewArray: reviewArray, login: req.session.userId})
     } catch (err) {
         res.status(500).json({ message: err.message})
@@ -44,10 +44,14 @@ router.get('/:id', getReview, (req, res) => {
 
 //Create one
 router.post('/create', authMiddleware, upload.single('image'), async (req, res) => {
+    console.log(req.session.userId)
     const review = new Review({
         title: req.body.title,
+        subtitle: req.body.subtitle,
         text: req.body.text,
+        rating: req.body.rating,
         image: req.file.filename,
+        userid: req.session.userId
     })
     console.log(req.file, req.body, req.file.filename)
     try {

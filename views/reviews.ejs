@@ -35,6 +35,10 @@
             <div id="preview"></div>
             <label for="title">Title</label><br>
             <input type="text" name="title" autocomplete="off"><br>
+            <label for="subtitle">Subtitle</label><br>
+            <input type="text" name="subtitle" autocomplete="off"><br>
+            <label for="rating">Rating 1-5 <span style="color: goldenrod;">&#9733;</span></label>
+            <input type="number" name="rating" size="2" value="3" min="1" max="5" autocomplete="off"><br>
             <label for="text">Text</label><br>
             <textarea name="text" rows="4" cols="50" autocomplete="off"></textarea><br>
             <input type="file" id="image" name="image"><br>
@@ -42,27 +46,34 @@
         </fieldset>
     </form>
     <form action="users/logout" method="get" id="logoutForm">
+        <div class="x-button"></div>
         <fieldset>
             <legend>Logout?</legend>
-            <div class="x-button"></div>
             <input type="submit" value="Confirm">
         </fieldset>
     </form>
     <form action="#" method="post" id="profileForm">
+        <div class="x-button"></div>
         <fieldset>
             <legend>Profile</legend>
-            <div class="x-button"></div>
         </fieldset>
     </form>
     <main style="display: inline-block; width: 100%;">
-        <% for (var i = 0; i < reviewArray.length; i++) { %>
+        <% for (let i = 0; i < reviewArray.length; i++) { %>
             <div style="border-style: solid; width: 700px; display: inline-block;">
                 <div style="float: left; width: 40%;">
                     <img src="<%= '../../images/' + reviewArray[i].image %>" width="300px" height="300px">
                 </div>
                 <div style="float: right; width:55%">
-                    <h1 style="display: inline-block;" "><%= reviewArray[i].title %></h1>
-                    <h2 style="display: inline-block;" "><%= reviewArray[i].text %></h2>
+                    <h1 style="display: inline-block;" "><%= reviewArray[i].title %></h1><br>
+                    <h2 style="display: inline-block;" "><%= reviewArray[i].subtitle %></h2><br>
+                    <div class="rating">
+                        <% for (let star = 0; star < reviewArray[i].rating; star++) { %>
+                            <span style="color: goldenrod;">&#9733;</span>
+                        <% } %>
+                    </div>
+                    <h4 style="display: inline-block;"><%= reviewArray[i].text %></h4>
+                    <p>Posted by <%= reviewArray[i].userid.username%></p>
                 </div>
             </div>
         <% } %>

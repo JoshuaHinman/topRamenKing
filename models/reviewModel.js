@@ -5,8 +5,18 @@ const reviewSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    subtitle: {
+        type: String,
+        required: false,
+        default: ""
+    },
     text: {
         type: String,
+        required: false,
+        default: ""
+    },
+    rating: {
+        type: Number,
         required: true
     },
     image: {
@@ -17,6 +27,11 @@ const reviewSchema = new mongoose.Schema({
         type: Date,
         required: true,
         default: Date.now
+    },
+    userid: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
     }
 });
 

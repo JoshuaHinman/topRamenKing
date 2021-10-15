@@ -26,6 +26,17 @@ function authMiddleware (req, res, next) {
     })
 }
 
+function getRatingsArray(body) {
+    let keys = Object.keys(body)
+    let iconKeys = keys.filter( key => key.slice(0, -1) === 'icon')
+    let ratingKeys = keys.filter( key => key.slice(0, -1) === 'rating')
+    let result = []
+    for (let i = 0; i < iconKeys.length; i++) {
+        result.push({ icon: body[iconKeys[i]], rating: body[ratingKeys[i]] })
+    }
+    return result
+}
+
 
 //Get all
 router.get('/', async (req, res) => {
@@ -44,16 +55,15 @@ router.get('/:id', getReview, (req, res) => {
 
 //Create one
 router.post('/create', authMiddleware, upload.single('image'), async (req, res) => {
-    console.log(req.session.userId)
-    const review = new Review({
+    let review = new Review({
         title: req.body.title,
         subtitle: req.body.subtitle,
         text: req.body.text,
-        rating: req.body.rating,
+        ratings: getRatingsArray(req.body),
         image: req.file.filename,
         userid: req.session.userId
     })
-    console.log(req.file, req.body, req.file.filename)
+    
     try {
         const newReview = await review.save();
         res.redirect('/reviews')

@@ -1,0 +1,85 @@
+<div class="rating-control">
+	<label for="icons">Choose an icon:</label>
+	<select name="icon" class="icon-selector" style="background-color: #eee; font-size: larger" autocomplete="off">
+	  <option value="&#11088;" selected>&#11088;</option>
+	  <option value="&#129378;" >&#129378;</option>
+	  <option value="&#x1F35C;">&#x1F35C;</option>
+	  <option value="&#128525;">&#128525;</option>
+	  <option value="🌶️">🌶️</option>
+	</select>
+	<input type="range" class="rating-slider" name="rating" min="0" max="5" step=".5" value="3" >
+	<div class="rating-display" style="display: inline-block;"></div>
+</div>
+<div id="add-del-controls">
+	<input type="button" value="+" id="add-button">
+	<input type="button" value="-" id="del-button">
+	<label for="del-button" id="add-del-label">Add/Remove slider</label>
+</div>
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const rating = document.querySelector('.rating-control')
+		let ratingControlCount = 0;
+
+		function addNewSlider() {
+			const newRating = rating.cloneNode(true)
+			const selector = newRating.querySelector('.icon-selector')
+			const slider = newRating.querySelector('.rating-slider')
+			ratingControlCount += 1
+			selector.addEventListener('input', (event) => setDisplay(event.target.parentNode))
+			selector.name = selector.name + ratingControlCount
+			slider.addEventListener('input', (event) => setDisplay(event.target.parentNode))
+			slider.name = slider.name + ratingControlCount
+			if (ratingControlCount > 1) {
+				newRating.querySelector('label').style.opacity = 0;
+			}
+			document.querySelector('#add-del-controls').insertAdjacentElement('beforebegin', newRating)
+			setDisplay(newRating)
+			styleAddDeleteLabel(ratingControlCount) 
+		}
+
+		function removeSlider() {
+			if (ratingControlCount > 1) {
+				const sliders = document.querySelectorAll('.rating-control')
+				sliders[sliders.length - 1].remove()
+				ratingControlCount -= 1
+				styleAddDeleteLabel(ratingControlCount)
+			}
+		}
+
+		function setDisplay(parent) {
+			console.log(parent)
+			const icon = parent.querySelector('select').value
+			const iconCount = parent.querySelector('.rating-slider').value
+			const display = parent.querySelector('.rating-display')
+			console.log(icon, iconCount, icon.repeat(iconCount))
+			display.textContent = icon.repeat(iconCount)
+
+			if (Math.floor(iconCount) < iconCount) { 					// if there's a trailing .5 star
+				const leftHalf = document.createElement('span')
+				const rightHalf = document.createElement('span')
+				leftHalf.textContent = icon
+				leftHalf.style.position = "relative"
+				rightHalf.style.cssText = "position: absolute; height: 100%; width: 50%; background-color: inherit; right: 0; opacity: 1; z-index: 1"
+				leftHalf.appendChild(rightHalf)
+				display.appendChild(leftHalf)
+			}
+		}
+
+		function styleAddDeleteLabel(sliderCount) {
+			const label = document.getElementById('add-del-label')
+			const delButton = document.getElementById('del-button')
+
+			if (ratingControlCount > 1) {
+				label.textContent = "Add/Remove rating slider"
+				delButton.style.visibility = "visible"
+			} else {
+				label.textContent = "Add another rating slider"
+				delButton.style.visibility = "hidden"
+			}
+		}
+		document.getElementById('add-button').addEventListener('click', addNewSlider)
+		document.getElementById('del-button').addEventListener('click', removeSlider)
+		rating.remove()
+		addNewSlider()
+	})
+</script>

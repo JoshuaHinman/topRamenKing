@@ -28,6 +28,7 @@ li a {
 form {
     position: absolute;
     width: 33%;
+    height: auto;
     margin: 0 33%;
     background-color: whitesmoke;
     opacity: 1;

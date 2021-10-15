@@ -37,8 +37,8 @@
             <input type="text" name="title" autocomplete="off"><br>
             <label for="subtitle">Subtitle</label><br>
             <input type="text" name="subtitle" autocomplete="off"><br>
-            <label for="rating">Rating 1-5 <span style="color: goldenrod;">&#9733;</span></label>
-            <input type="number" name="rating" size="2" value="3" min="1" max="5" autocomplete="off"><br>
+            <label for="rating">Rating </label>
+            <%- include('layouts/ratingControl')  -%>
             <label for="text">Text</label><br>
             <textarea name="text" rows="4" cols="50" autocomplete="off"></textarea><br>
             <input type="file" id="image" name="image"><br>
@@ -67,11 +67,15 @@
                 <div style="float: right; width:55%">
                     <h1 style="display: inline-block;" "><%= reviewArray[i].title %></h1><br>
                     <h2 style="display: inline-block;" "><%= reviewArray[i].subtitle %></h2><br>
-                    <div class="rating">
-                        <% for (let star = 0; star < reviewArray[i].rating; star++) { %>
-                            <span style="color: goldenrod;">&#9733;</span>
-                        <% } %>
-                    </div>
+                    <% for (let r = 0; r < reviewArray[i].ratings.length; r++) { %>
+                        <div class="rating">
+                            <% let icon = reviewArray[i].ratings[r].icon %>
+                            <% let totalIcons = reviewArray[i].ratings[r].rating %>
+                            <% for (let count = 0; count < totalIcons; count++) { %>
+                                <span><%= icon %></span>
+                            <% } %>
+                        </div>
+                 <% } %>
                     <h4 style="display: inline-block;"><%= reviewArray[i].text %></h4>
                     <p>Posted by <%= reviewArray[i].userid.username%></p>
                 </div>

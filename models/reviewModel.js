@@ -15,8 +15,8 @@ const reviewSchema = new mongoose.Schema({
         required: false,
         default: ""
     },
-    rating: {
-        type: Number,
+    ratings: {
+        type: [{icon: String, rating: Number}],
         required: true
     },
     image: {

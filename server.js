@@ -8,7 +8,9 @@ const expressSession = require('express-session')
 const reviewsRouter = require('./routes/reviewsRouter');
 const usersRouter = require('./routes/usersRouter');
 
+
 mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true});
+
 const db = mongoose.connection;
 db.on('error', (error) => console.error(error));
 db.on('open', () => console.log('Connected to ' + process.env.DATABASE_URL));
@@ -29,4 +31,8 @@ app.get('/', (req, res) => {
     res.redirect('/reviews')
 })
 
-app.listen(3000, () => console.log('Server Started'));
+let port = process.env.PORT
+if (port == null || port == "") {
+    port = 4000
+}
+app.listen(port, () => console.log('Listening on ' + port));

@@ -60,7 +60,7 @@ router.post('/create', authMiddleware, upload.single('image'), async (req, res) 
         subtitle: req.body.subtitle,
         text: req.body.text,
         ratings: getRatingsArray(req.body),
-        image: req.file.filename,
+        image: [req.file.filename],
         userid: req.session.userId
     })
     

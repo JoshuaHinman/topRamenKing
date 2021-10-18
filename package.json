@@ -9,6 +9,9 @@
   },
   "author": "Josh Hinman",
   "license": "ISC",
+  "engines": {
+      "node": "16.4.2"
+    },
   "dependencies": {
     "bcrypt": "^5.0.1",
     "dotenv": "^10.0.0",

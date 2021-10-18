@@ -20,8 +20,8 @@ const reviewSchema = new mongoose.Schema({
         required: true
     },
     image: {
-        type: String,
-        default: null
+        type: [String],
+        default: []
     },
     date: {
         type: Date,

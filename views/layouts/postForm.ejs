@@ -1,0 +1,17 @@
+<form action="reviews/create" method="post" encType="multipart/form-data" id="postForm">
+    <div class="x-button"></div>
+    <fieldset>
+        <legend>Make A Post</legend>
+        <div id="preview"></div>
+        <label for="title">Title</label><br>
+        <input type="text" name="title" autocomplete="off"><br>
+        <label for="subtitle">Subtitle</label><br>
+        <input type="text" name="subtitle" autocomplete="off"><br>
+        <label for="rating">Rating </label>
+        <%- include('ratingControl')  -%>
+        <label for="text">Text</label><br>
+        <textarea name="text" rows="4" cols="50" autocomplete="off"></textarea><br>
+        <input type="file" id="image" name="image"><br>
+        <input type="submit" value="Submit">
+    </fieldset>
+</form>

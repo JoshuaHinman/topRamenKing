@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Review = require('../models/reviewModel');
 const User = require('../models/userModel');
+const fs = require('fs')
 
 const path = require('path')
 const multer = require('multer')
@@ -55,17 +56,25 @@ router.get('/:id', getReview, (req, res) => {
 
 //Create one
 router.post('/create', authMiddleware, upload.single('image'), async (req, res) => {
+    console.log(path.join(__dirname + '/../public/images/' + req.file.filename))
     let review = new Review({
         title: req.body.title,
         subtitle: req.body.subtitle,
         text: req.body.text,
         ratings: getRatingsArray(req.body),
-        image: [req.file.filename],
+        image:[{name: req.file.filename,
+                contentType: req.file.mimetype,
+                data: fs.readFileSync(path.join(__dirname + '/../public/images/' + req.file.filename))
+        }],
         userid: req.session.userId
     })
     
     try {
         const newReview = await review.save();
+        fs.unlink(path.join(__dirname + '/../public/images/' + req.file.filename),function(err){
+            if(err) return console.log(err);
+            console.log('file deleted successfully');
+       });  
         res.redirect('/reviews')
     } catch (err) {
         res.status(400).json({message: err.message});

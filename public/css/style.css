@@ -5,6 +5,12 @@ h1 {
     text-align:center;
 }
 
+.table {
+	display: table;   /* Allow the centering to work */
+	margin: 0 auto;
+    height: 50px;
+}
+
 ul {
     padding: 0;
     margin: 0 auto;
@@ -16,6 +22,7 @@ li {
     padding: 5px;
     background-color: black;
     border-radius: 5px;
+    font-size: larger;
 
 }
 
@@ -42,12 +49,6 @@ fieldset{
 
 #navbar {
 	height: 84px;
-}
-
-.table {
-	display: table;   /* Allow the centering to work */
-	margin: 0 auto;
-    height: 50px;
 }
 
 .x-button {
@@ -92,3 +93,10 @@ ul#navbar li {
 #logged-in {
     visibility: visible;
 }
+
+@media (orientation: portrait) {
+    body {
+        width: 100%;
+        margin: auto;
+    }
+  }

@@ -19,10 +19,11 @@ const reviewSchema = new mongoose.Schema({
         type: [{icon: String, rating: Number}],
         required: true
     },
-    image: {
-        type: [String],
-        default: []
-    },
+    image: [{
+       name: String,
+       contentType: String,
+       data: Buffer
+    }],
     date: {
         type: Date,
         required: true,

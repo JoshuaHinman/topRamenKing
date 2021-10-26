@@ -8,8 +8,8 @@ const expressSession = require('express-session')
 const reviewsRouter = require('./routes/reviewsRouter');
 const usersRouter = require('./routes/usersRouter');
 
-
-mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true});
+let dbUrl = process.env.DATABASE_URL || "mongodb://localhost/topRamenKing"
+mongoose.connect(dbUrl, {useNewUrlParser: true});
 
 const db = mongoose.connection;
 db.on('error', (error) => console.error(error));

@@ -1,14 +1,27 @@
+
 body {
     width: 100%;
 }
+
 h1 {
     text-align:center;
+}
+
+main {
+    width: 100%;
+    margin:0 auto;
+}
+
+.review-container {
+    border-style: solid;
+    width: 48%;
+    display: inline-block;
 }
 
 .table {
 	display: table;   /* Allow the centering to work */
 	margin: 0 auto;
-    height: 50px;
+    height: 90px;
 }
 
 ul {
@@ -47,8 +60,11 @@ fieldset{
     box-shadow: none;
  }
 
+ #menu-outer {
+    height: 90px;
+}
 #navbar {
-	height: 84px;
+	height: 90px;
 }
 
 .x-button {
@@ -84,10 +100,8 @@ ul#navbar {
 
 ul#navbar li {
 	display: inline;
-}
-
-#menu-outer {
-    height: 50px;
+    height: 90px;
+    font-size: 1.1rem;
 }
 
 #logged-in {
@@ -95,8 +109,28 @@ ul#navbar li {
 }
 
 @media (orientation: portrait) {
+    html {
+        font-size: 30px;
+    }
+
     body {
         width: 100%;
         margin: auto;
+    }
+
+    main {
+        width: 100%;
+        margin:0 auto;
+    }
+
+    #menu-outer {
+        margin-bottom:20px ;
+    }
+    
+    
+    .review-container {
+        border-style: solid;
+        width: 98%;
+        display: inline-block;
     }
   }

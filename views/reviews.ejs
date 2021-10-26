@@ -4,9 +4,9 @@
 <body>
     <%- include('layouts/header')-%>
     <div id="popup"></div>
-    <main style="width: 100%;">
+    <main>
         <% for (let i = 0; i < reviewArray.length; i++) { %>
-            <div style="border-style: solid; width: 48%; display: inline-block;">
+            <div class="review-container">
                 <div style="float: left; width: 40%;">
                     <img src ="data:image/<%=reviewArray[i].image[0].contentType%>;base64, <%=reviewArray[i].image[0].data.toString('base64')%>" width="300px" height="300px"> 
                 </div>

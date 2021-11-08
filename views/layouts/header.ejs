@@ -1,17 +1,28 @@
 <meta charset="utf-8">
 <h1>🍜Top Ramen King👑</h1>
-<div id="menu-outer">
-    <div class="table">
-        <ul id="navbar">
-            <li><a href="#">Home</a></li>
-            <li id="postTab" class="menuTab" data-form="postForm"><a href="#">Post</a></li>
-            <li><a href="#">About</a></li>
-            <li id="loginTab" class="menuTab" data-form="loginForm"><a href="#">Log In</a></li>
-            <li id="signupTab" class="menuTab" data-form="signupForm"><a href="#">Sign Up</a></li>
-            <li id="logoutTab" class="menuTab" data-form="logoutForm"><a href="#">Log Out</a></li>
-            <li id="profileTab" class="menuTab" data-form="profileForm"><a href="#">Profile</a></li>
-        </ul>
+<div id="navbar">
+    <div class="spacer" id="homeTab">
+        <div class="nav-button"><a class="nav-link" href="#">Home</a></div>
     </div>
+    <div class="spacer">
+        <div class="nav-button"><a class="nav-link" href="#">About</a></div>
+    </div>
+    <div class="spacer" id="postTab">
+        <div class="nav-button modal-tab" data-form="postForm"><a class="nav-link" href="#">Post</a></div>
+    </div>
+    <div class="spacer" id="signupTab">
+        <div class="nav-button modal-tab" data-form="signupForm"><a class="nav-link" href="#">Signup</a></div>
+    </div>
+    <div class="spacer" id="loginTab">
+        <div class="nav-button modal-tab" data-form="loginForm"><a class="nav-link" href="#">Login</a></div>
+    </div>
+    <div class="spacer" id="logoutTab">
+        <div class="nav-button modal-tab" data-form="logoutForm"><a class="nav-link" href="#">Log Out</a></div>
+    </div>
+    <div class="spacer" id="profileTab"
+    ><div class="nav-button modal-tab" data-form="profileForm"><a class="nav-link" href="#">Profile</a></div>
+    </div
+    >
     <%- include('signupForm')-%>
     <%- include('loginForm')-%>
     <%- include('postForm')-%>

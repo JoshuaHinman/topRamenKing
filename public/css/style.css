@@ -1,6 +1,9 @@
-
 body {
-    width: 100%;
+    width: 80%;
+    box-sizing: border-box;
+    margin: 0 auto;
+    border: 0px;
+    padding: 0px;
 }
 
 h1 {
@@ -12,16 +15,52 @@ main {
     margin:0 auto;
 }
 
-.review-container {
-    border-style: solid;
-    width: 48%;
-    display: inline-block;
+#photo-button {
+    border: 1px solid #555;
+    border-radius: 3px;
+    background-color: #eee;
+    width: 15%;
+    padding-left: 3px;
+    padding-right: 3px;
 }
 
-.table {
-	display: table;   /* Allow the centering to work */
-	margin: 0 auto;
-    height: 90px;
+#photo-button:hover {
+    background-color: #ddd;
+}
+
+.spacer {
+    margin: 0px;
+    width: 20%;
+    height: 40px;
+    font-size: 30px;
+    box-sizing: border-box;
+    display: inline-block;
+    text-align: center;
+    
+}
+.nav-button {
+    width: 80%;
+    margin: 0 auto;
+    border: 1px solid black;
+    border-radius: 	7px;
+    background-color: black;
+    font-size: 25px;
+}
+.nav-link {
+    
+    width: 100px;
+    text-decoration: none;
+    color: white;
+}
+
+#navbar {
+    font-size: 0px;
+}
+
+.review-container {
+    border-style: solid;
+    width: 98%;
+    display: inline-block;
 }
 
 ul {
@@ -47,25 +86,20 @@ li a {
 
 form {
     position: absolute;
-    width: 33%;
+    left: 30%;
+    width: 40%;
     height: auto;
-    margin: 0 33%;
+    margin: 0;
     background-color: whitesmoke;
     opacity: 1;
     border: 1px solid black;
+    z-index: 2;
 
 }
 fieldset{
     border:0;
     box-shadow: none;
  }
-
- #menu-outer {
-    height: 90px;
-}
-#navbar {
-	height: 90px;
-}
 
 .x-button {
     height: 20px;
@@ -93,17 +127,6 @@ fieldset{
     text-align: center;
 }
 
-ul#navbar {
-	list-style: none;
-	padding-top: 20px;
-}
-
-ul#navbar li {
-	display: inline;
-    height: 90px;
-    font-size: 1.1rem;
-}
-
 #logged-in {
     visibility: visible;
 }
@@ -115,7 +138,6 @@ ul#navbar li {
 
     body {
         width: 100%;
-        margin: auto;
     }
 
     main {
@@ -125,6 +147,12 @@ ul#navbar li {
 
     #menu-outer {
         margin-bottom:20px ;
+    }
+
+    form {
+        position: absolute;
+        left: 10%;
+        width: 80%;
     }
     
     

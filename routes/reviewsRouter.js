@@ -21,7 +21,7 @@ function authMiddleware (req, res, next) {
     User.findById(req.session.userId, (err, user) => {
         if (err || !user) {
             console.log('error')
-            return res.redirect('/')
+           // return res.redirect('/')
         }
         next()
     })
@@ -49,14 +49,13 @@ router.get('/', async (req, res) => {
     }
 });
 
-//Get one
-router.get('/:id', getReview, (req, res) => {
-    res.json(res.review)
+router.get('/new', (req, res) => {
+    res.render('createPost', {login: req.session.userId})
 });
 
 //Create one
-router.post('/create', authMiddleware, upload.single('image'), async (req, res) => {
-    console.log(path.join(__dirname + '/../public/images/' + req.file.filename))
+router.post('/create', authMiddleware, upload.single('file'), async (req, res) => {
+    console.log(req.body, req.file);
     let review = new Review({
         title: req.body.title,
         subtitle: req.body.subtitle,
@@ -105,6 +104,11 @@ router.delete('/:id', getReview, async (req, res) => {
         res.status(500).json({ message: err.message});
     }
 
+});
+
+//Get one
+router.get('/:id', getReview, (req, res) => {
+    res.json(res.review)
 });
 
 async function getReview(req, res, next) {

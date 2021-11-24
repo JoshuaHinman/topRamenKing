@@ -6,8 +6,8 @@ body {
     padding: 0px;
 }
 
-h1 {
-    text-align:center;
+h1, h3 {
+    text-align: center;
 }
 
 main {
@@ -15,19 +15,9 @@ main {
     margin:0 auto;
 }
 
-#photo-button {
-    border: 1px solid #555;
-    border-radius: 3px;
-    background-color: #eee;
-    width: 15%;
-    padding-left: 3px;
-    padding-right: 3px;
+input {
+    font-size: medium;
 }
-
-#photo-button:hover {
-    background-color: #ddd;
-}
-
 .spacer {
     margin: 0px;
     width: 20%;
@@ -63,28 +53,7 @@ main {
     display: inline-block;
 }
 
-ul {
-    padding: 0;
-    margin: 0 auto;
-}
-
-li {
-    margin-left: 50px;
-    margin-right: 50px;
-    padding: 5px;
-    background-color: black;
-    border-radius: 5px;
-    font-size: larger;
-
-}
-
-li a {
-    color: white;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-form {
+.modal-form {
     position: absolute;
     left: 30%;
     width: 40%;
@@ -129,6 +98,60 @@ fieldset{
 
 #logged-in {
     visibility: visible;
+}
+
+#rotate-clockwise {
+    float: right;
+    font-size: x-large;
+}
+#photo-canvas, #overlay-canvas {
+    position: absolute;
+    left: 5%;
+    top: 0;
+}
+#photo-canvas {
+    background-color: #555;
+}
+#overlay-canvas {
+    z-index: 3;
+}
+#post-layout {
+    background-color: whitesmoke;
+    
+}
+#post-form-data {
+    font-size: xx-large;
+    position: relative;
+    width: 800px;
+    margin: 0 auto;
+    border: solid black 1px;
+}
+#photo-controls {
+    position: relative;
+    width: 805px;
+    margin: 0 auto;
+}
+#photo-frame {
+    position: relative;
+    width: 900px;
+    margin: 0 auto;
+    background-color: aqua;
+
+}
+.large-fake-button {
+    display: border-box;
+    background-color: #eee;
+    padding: 2px;
+    border: solid 2px grey;
+    border-radius: 3px;
+    font-size: xx-large;
+}
+#submitPost {
+    font-size: xxx-large;
+    position: absolute;
+    left: 40%;
+    top: 800;
+
 }
 
 @media (orientation: portrait) {

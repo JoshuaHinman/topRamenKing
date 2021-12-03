@@ -97,7 +97,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     hideForms();
     toggleLoginTabs();
-    //showFlashMessage('This is a test of the flash message system');
+    if (!loggedIn && window.location.href.split('/')[4] === 'new') { //not logged in, on new post page
+        showFlashMessage('You have to log in before posting a review.');
+    }
 
 })(); //end IIFE
 })

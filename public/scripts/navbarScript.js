@@ -1,10 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
     const flashMessage = document.getElementById('flash-message-form');
 
+    function hideForm(event) {
+        event.preventDefault();
+        const form = event.target.closest('form');
+        form.style.visibility = "hidden";
+        //form.remove();
+        activeForm = null;
+    }
+
     function showFlashMessage(message) {
         flashMessage.querySelector('#flash-message').textContent = message;
         document.getElementById('popup').appendChild(flashMessage);
-        //flashMessage.style.visibility = 'visible';
+        flashMessage.style.visibility = 'visible';
     }
 
     function clearFlashMessage() {
@@ -47,13 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function hideForm(event) {
-        event.preventDefault();
-        const form = event.target.closest('form');
-        form.style.visibility = "hidden";
-        //form.remove();
-        activeForm = null;
-    }
+    
 
     function hideForms() {
        // const forms = document.querySelectorAll('form');
@@ -98,7 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             loggedIn = !loggedIn
                             toggleLoginTabs()})
      });
-     flashMessage.remove();
 
     //hideForms();
     toggleLoginTabs();

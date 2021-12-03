@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function showFlashMessage(message) {
         flashMessage.querySelector('#flash-message').textContent = message;
         document.getElementById('popup').appendChild(flashMessage);
+        //flashMessage.style.visibility = 'visible';
     }
 
     function clearFlashMessage() {
@@ -49,7 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function hideForm(event) {
         event.preventDefault();
         const form = event.target.closest('form');
-        form.remove();
+        form.style.visibility = "hidden";
+        //form.remove();
         activeForm = null;
     }
 
@@ -76,10 +78,12 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(event.target);
         const showForm = getForm(event.target.closest('.modal-tab').dataset.form);
         if (activeForm) {
-            activeForm.remove();
+            activeForm.style.visibility = "hidden";
+            //activeForm.remove();
         }
         activeForm = showForm;
-        document.getElementById('popup').appendChild(showForm);
+        //document.getElementById('popup').appendChild(showForm);
+        activeForm.style.visibility = "visible";
     }
 
     Array.from(document.querySelectorAll('.modal-tab')).
@@ -94,8 +98,9 @@ document.addEventListener('DOMContentLoaded', () => {
                             loggedIn = !loggedIn
                             toggleLoginTabs()})
      });
+     flashMessage.remove();
 
-    hideForms();
+    //hideForms();
     toggleLoginTabs();
     if (!loggedIn && window.location.href.split('/')[4] === 'new') { //not logged in, on new post page
         showFlashMessage('You have to log in before posting a review.');

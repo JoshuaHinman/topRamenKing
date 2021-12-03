@@ -27,7 +27,8 @@ router.post('/login', (req, res) => {
             bcrypt.compare(password, user.password, (err, same) => {
                 if(same) {
                     console.log("I'm in")
-                    req.session.userId = user._id
+                    req.session.userId = user._id;
+                    req.session.userName = user.username;
                     res.redirect('/reviews')
                 } else {
                     console.log("declined: wrong password")

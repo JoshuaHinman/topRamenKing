@@ -2,13 +2,13 @@
 <h1>🍜Top Ramen King👑</h1>
 <div id="navbar">
     <div class="spacer" id="homeTab">
-        <div class="nav-button"><a class="nav-link" href="#">Home</a></div>
+        <div class="nav-button"><a class="nav-link" href="/">Home</a></div>
     </div>
     <div class="spacer">
         <div class="nav-button"><a class="nav-link" href="#">About</a></div>
     </div>
     <div class="spacer" id="postTab">
-        <div class="nav-button" data-form="postForm"><a class="nav-link" href="reviews/new">Post</a></div>
+        <div class="nav-button" data-form="postForm"><a class="nav-link" href="/reviews/new">Post</a></div>
     </div>
     <div class="spacer" id="signupTab">
         <div class="nav-button modal-tab" data-form="signupForm"><a class="nav-link" href="#">Signup</a></div>
@@ -23,8 +23,10 @@
     ><div class="nav-button modal-tab" data-form="profileForm"><a class="nav-link" href="#">Profile</a></div>
     </div
     >
+    <div id="popup"></div>
     <%- include('signupForm')-%>
     <%- include('loginForm')-%>
     <%- include('logoutForm')-%>
     <%- include('profileForm')-%>
+    <%- include('flashMessageForm')-%>
 </div>

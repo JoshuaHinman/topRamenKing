@@ -3,7 +3,11 @@
 </head>
 <body>
     <%- include('layouts/header')-%>
-    <div id="popup"></div>
+    <% if (login) { %>
+        <p id="logged-in">Logged in as: <span><%=login%></span></p>
+    <% } else {%>
+        <p id="logged-in">Logged out</p>
+    <% } %>
     <main>
         <% for (let i = 0; i < reviewArray.length; i++) { %>
             <div class="review-container">
@@ -31,8 +35,7 @@
             </div>
         <% } %>
     </main>
-    <p id="logged-in">Logged in: <span><%= !!login%></span></p>
 </body>
 <footer>
-    <script src="scripts/script.js"></script> 
+    <script src="scripts/navbarScript.js"></script> 
 </footer>

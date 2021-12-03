@@ -18,6 +18,10 @@ main {
 input {
     font-size: medium;
 }
+.centered {
+    margin: 0 auto;
+    display: block;
+}
 .spacer {
     margin: 0px;
     width: 20%;
@@ -49,22 +53,29 @@ input {
 
 .review-container {
     border-style: solid;
-    width: 98%;
+    width: 100%;
     display: inline-block;
 }
 
 .modal-form {
     position: absolute;
-    left: 30%;
-    width: 40%;
+    left: 40%;
+    width: 20%;
     height: auto;
-    margin: 0;
     background-color: whitesmoke;
     opacity: 1;
     border: 1px solid black;
     z-index: 2;
-
+    font-size: 20px;
 }
+
+#flash-message-form {
+    border: solid 2px gold;
+    border-radius: 3px;
+    background-color: lightyellow;
+    text-align: center;
+}
+
 fieldset{
     border:0;
     box-shadow: none;
@@ -97,12 +108,27 @@ fieldset{
 }
 
 #logged-in {
-    visibility: visible;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    text-align: right;
 }
 
 #rotate-clockwise {
     float: right;
-    font-size: x-large;
+    font-size: xx-large;
+}
+#photo {
+    float: left;
+    width: 5px;
+}
+
+#cropped-frame {
+    margin: 0 auto;
+}
+
+#cropped-canvas {
+    margin: 0 auto;
 }
 #photo-canvas, #overlay-canvas {
     position: absolute;
@@ -138,20 +164,25 @@ fieldset{
     background-color: aqua;
 
 }
-.large-fake-button {
+.large-button {
     display: border-box;
     background-color: #eee;
     padding: 2px;
     border: solid 2px grey;
     border-radius: 3px;
     font-size: xx-large;
+    float:left;
 }
 #submitPost {
+    margin-top: 5px;
     font-size: xxx-large;
-    position: absolute;
-    left: 40%;
-    top: 800;
+    border: solid 2px gold;
+    border-radius: 3px;
+    background-color: lightyellow;
+}
 
+#submitPost:active {
+    background-color: rgb(252, 252, 188);
 }
 
 @media (orientation: portrait) {

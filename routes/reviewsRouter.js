@@ -43,14 +43,14 @@ function getRatingsArray(body) {
 router.get('/', async (req, res) => {
     try {
         const reviewArray = await Review.find({}).populate('userid')
-        res.render('reviews', {reviewArray: reviewArray, login: req.session.userId})
+        res.render('reviews', {reviewArray: reviewArray, login: req.session.userName})
     } catch (err) {
         res.status(500).json({ message: err.message})
     }
 });
 
 router.get('/new', (req, res) => {
-    res.render('createPost', {login: req.session.userId})
+    res.render('createPost', {login: req.session.userName})
 });
 
 //Create one

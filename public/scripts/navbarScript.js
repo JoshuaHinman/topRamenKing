@@ -1,16 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("DOM Loaded");
-    
+    const flashMessage = document.getElementById('flash-message-form');
 
+    function showFlashMessage(message) {
+        flashMessage.querySelector('#flash-message').textContent = message;
+        document.getElementById('popup').appendChild(flashMessage);
+    }
+
+    function clearFlashMessage() {
+        const flash = document.getElementById('flash-message-form');
+        if(flash) {
+            flash.remove();
+        }
+    }
+    
+(function() {
     const logoutForm = document.getElementById('logoutForm');
     const formArray = [ logoutForm,
+                        flashMessage,
                         document.getElementById('signupForm'),
                         document.getElementById('loginForm'),
                         document.getElementById('profileForm')];
 
     let activeForm = null;
 
-    const loggedIn = (document.querySelector('#logged-in span').textContent === 'true');
+    const loggedIn = (document.querySelector('#logged-in').textContent !== 'Logged out');
 
     //**** functions for toggling form modals
     function toggleLoginTabs() {
@@ -41,9 +54,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function hideForms() {
-        const forms = document.querySelectorAll('form');
-        for (let i = 0; i < forms.length; i++) {
-            forms[i].remove();
+       // const forms = document.querySelectorAll('form');
+        for (let i = 0; i < formArray.length; i++) {
+            formArray[i].remove();
         }
         activeForm = null;
     }
@@ -84,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     hideForms();
     toggleLoginTabs();
+    //showFlashMessage('This is a test of the flash message system');
 
-
+})(); //end IIFE
 })

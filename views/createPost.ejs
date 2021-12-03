@@ -1,7 +1,14 @@
 <head>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body style="background-color: whitesmoke;">
+    <%- include('layouts/header')-%>
+    <% if (login) { %>
+        <p id="logged-in">Logged in as: <span><%=login%></span></p>
+    <% } else {%>
+        <p id="logged-in">Logged out</p>
+    <% } %>
+    <main>
     <div id="post-layout">
         <form action="reviews/create" method="post" encType="multipart/form-data" id="post-form-data" style="position:relative">
             <fieldset>
@@ -18,19 +25,26 @@
         </form>
         <div></div><br>
         <div id="photo-controls">
-            <label for="photo" class="large-fake-button">Add Photo...</label>
-            <input type="file" id="photo" name="photo" style="visibility: hidden;"><br>
-            <span style="font-size: xx-large;">🠗 Drag frame corners to crop image 🠗</span>
+            <label for="photo" class="large-button">Add Photo...</label>
+            <input type="file" id="photo" name="photo" style="visibility: hidden;">
+            <!-- <span style="font-size: xx-large;">🠗 Drag frame corners to crop image 🠗</span> -->
+            <span style="font-size: xx-large;">🠗 Image will crop to square shape</span>
             <input type="button" id="rotate-clockwise" value="Rotate ↷90°">
+            <div id="cropped-frame">
+                <canvas id="cropped-canvas"></canvas>
+            </div>
+            <div class="centered">
+                <input type="submit" id="submitPost" value="DONE" class="centered">
+            </div>
         </div>
         <div id="photo-frame">
-            <canvas id="photo-canvas" width="800" height ="800"></canvas>
-            <canvas id="overlay-canvas" width="800" height ="800"></canvas>
-            <input type="submit" id="submitPost" value="DONE">
+            <!-- <canvas id="photo-canvas" width="1000" height ="1000"></canvas> -->
+            <!-- <canvas id="overlay-canvas" width="800" height ="800"></canvas> -->
         </div>
     </div>
+    </main>
 </body>
 <footer>
-    <p id="logged-in">Logged in: <span><%= !!login%></span></p>
-    <script type="text/javascript" src="../scripts/postFormScript.js"></script> 
+    <script type="text/javascript" src="/scripts/postFormScript.js"></script>
+    <script type="text/javascript" src="/scripts/navbarScript.js"></script>
 </footer>

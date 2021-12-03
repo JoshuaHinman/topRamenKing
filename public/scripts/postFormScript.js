@@ -3,16 +3,26 @@ document.addEventListener('DOMContentLoaded', () => {
 const ratingControl = document.querySelector('.rating-control');
 let ratingControlCount = 0;
 (function() {
-    const photoCanvas = document.getElementById('photo-canvas');
-    const overlayCanvas = document.getElementById('overlay-canvas');
+    const photoCanvas = document.createElement('canvas');//   document.getElementById('photo-canvas');
+    const croppedCanvas = document.getElementById('cropped-canvas');
+    const croppedFrame = document.getElementById('cropped-frame');
+    //const overlayCanvas = document.getElementById('overlay-canvas');
+    const croppedCtx = croppedCanvas.getContext('2d');
     const photoCtx = photoCanvas.getContext('2d');
-    const overlayCtx = overlayCanvas.getContext('2d');
+    //const overlayCtx = overlayCanvas.getContext('2d');
     const fileInput = document.getElementById('photo');
     const postFormData = document.getElementById('post-form-data');
     const rotateButton = document.getElementById('rotate-clockwise');
     const submitButton = document.getElementById('submitPost');
+    let croppedImage;
+    photoCanvas.width  = 800;
+    photoCanvas.height = 800; 
+    photoCanvas.style.width  = '800px';
+    photoCanvas.style.height = '800px';
 
-    overlayCtx.strokeStyle = "#0F0";
+    let submitPost = false;
+    
+    //overlayCtx.strokeStyle = "#0F0";
 
     let frameWidth = 0;
     let frameHeight = 0;
@@ -35,40 +45,23 @@ let ratingControlCount = 0;
 
     submitButton.addEventListener('click', async function(event) {
         event.preventDefault();
-        const request = new XMLHttpRequest();
-        let formData = new FormData(postFormData);
-        request.open('POST', 'create');
-        request.onload = function() {
-           window.location = "../";
-        };
-        const imageData = photoCtx.getImageData(vertex[0].x, vertex[0].y, //copy rect from canvas
-                                                vertex[1].x - vertex[0].x + 1, vertex[1].y - vertex[0].y + 1); 
-        const tempCanvas = document.createElement('canvas');
-        tempCanvas.width =  imageData.width;
-        tempCanvas.height =  imageData.height;
-        const ctx = tempCanvas.getContext('2d');
-        ctx.putImageData(imageData, 0, 0);
-        let imgURL;
-        let imgFile;
-        let imgBlob;
-        tempCanvas.toBlob(async function(blob) {
-        var newImg = document.createElement('img');
-        imgFile = await new File([blob], 'fileName.png', {type:'image/png', lastModified:new Date()}); //blob to file object
-        formData.append('file', imgFile);
-        request.send(formData);
-
-         // newImg.src = imgURL;
-          ///postForm.appendChild(newImg);
-        });
-        //console.log(newFile);
-        //formData.set('imageFile', "this is a fun time");
-        // for (var key of formData.keys()) {
-        //    console.log(key);
-        // }
-        // for (var pair of formData.entries()) {
-        //     console.log(pair[0]+ ', ' + pair[1]); 
-        // }
-       
+        if (!submitPost) {
+            submitPost = true;
+            const request = new XMLHttpRequest();
+            let formData = new FormData(postFormData);
+            request.open('POST', 'create');
+            request.onload = function() {
+            window.location = "../";
+            };
+            
+            let imgFile;
+            croppedCanvas.toBlob(async function(blob) {
+                var newImg = document.createElement('img');
+                imgFile = await new File([blob], 'fileName.png', {type:'image/png', lastModified:new Date()}); //blob to file object
+                formData.append('file', imgFile);
+                request.send(formData);
+            });
+        }
 
     });
 
@@ -87,22 +80,39 @@ let ratingControlCount = 0;
         console.log(rotateImg);
     };
 
-    function scaleAndRenderImage(image, canvas) {
-        photoCtx.clearRect(0, 0, photoCanvas.width, photoCanvas.height);
-        photoCtx.save();
+    function setCanvasTransform() {
+        photoCtx.resetTransform();
         photoCtx.translate(photoCanvas.width / 2, photoCanvas.height / 2);
         photoCtx.rotate(rotateImg * Math.PI / 180);
+    }
+
+    function scaleAndRenderImage(image, canvas) {
+        let newImageSize;
+        photoCtx.clearRect(0, 0, photoCanvas.width, photoCanvas.height);
+        croppedCtx.clearRect(0, 0, photoCanvas.width, photoCanvas.height);
+        setCanvasTransform();
         if (image.width > image.height) {       //wide image
             imageScale = canvas.width / image.width;
-            imageX = - (image.width / 2 * imageScale);//0;
-            imageY = - (image.height / 2 * imageScale);//(canvas.height / 2) - (image.height / 2 * imageScale );
+            newSize = image.height * imageScale;
+            imageX = - (image.width / 2 * imageScale);
+            imageY = - (image.height / 2 * imageScale);
         } else {                                //tall image
             imageScale = canvas.height / image.height;
-            imageX = - (image.width / 2 * imageScale);//(canvas.width / 2) - (image.width / 2 * imageScale);
-            imageY = - (image.height / 2 * imageScale);//0;
+            newSize = image.width * imageScale;
+            imageX = - (image.width / 2 * imageScale);
+            imageY = - (image.height / 2 * imageScale);
         }
         photoCtx.drawImage(image, imageX, imageY, image.width * imageScale, image.height * imageScale);
-        photoCtx.restore();
+        photoCtx.resetTransform();
+        croppedImage = photoCtx.getImageData((photoCanvas.width / 2) - (newSize / 2), (photoCanvas.height / 2) - (newSize / 2),
+                                             newSize, newSize);
+        croppedFrame.style.width  = (newSize + 4) + 'px';
+        croppedFrame.style.height = (newSize + 4) + 'px';
+        croppedCanvas.width  = newSize;
+        croppedCanvas.height = newSize; 
+        croppedCanvas.style.width  = newSize + 'px';
+        croppedCanvas.style.height = newSize + 'px';
+        croppedCtx.putImageData(croppedImage, 0, 0);
     }
 
     fileInput.onchange = function (event) {
@@ -117,125 +127,102 @@ let ratingControlCount = 0;
                 if (event.target.readyState === FileReader.DONE) {
                     image.src = event.target.result;
                     image.onload = function (event) {
-                        //photoCtx.clearRect(0, 0, photoCanvas.width, photoCanvas.height);
                         rotateImg = 0;
                         scaleAndRenderImage(image, photoCanvas);
-                        //scaleImageToFit(image, photoCanvas);
-                        const imageData = photoCtx.getImageData(0, 0, 300, 300);
                     }
                 }
             }
         }
     }
 
-    function setFramePosition(x, y, x2, y2) {
-        vertex[0].x = x;
-        vertex[0].y = y;
-        vertex[1].x = x2;
-        vertex[1].y = y2;
-        vertex[2].x = x2 - (x / 2);
-        vertex[2].y = y2 - (y / 2);
-        frameWidth = x2 - x + 1;
-        frameHeight = y2 - y + 1;
-    }
+    // function setFramePosition(x, y, x2, y2) {
+    //     vertex[0].x = x;
+    //     vertex[0].y = y;
+    //     vertex[1].x = x2;
+    //     vertex[1].y = y2;
+    //     vertex[2].x = x2 - (x / 2);
+    //     vertex[2].y = y2 - (y / 2);
+    //     frameWidth = x2 - x + 1;
+    //     frameHeight = y2 - y + 1;
+    // }
 
-    function drawFrame() {
-        overlayCtx.strokeRect(vertex[0].x, vertex[0].y, vertex[1].x - vertex[0].x, vertex[1].y - vertex[0].y);// frame
-        overlayCtx.strokeRect(vertex[0].x, vertex[0].y, 10, 10);    // top left corner
-        overlayCtx.strokeRect(vertex[1].x - 10, vertex[0].y, 10, 10);    // top right corner
-        overlayCtx.strokeRect(vertex[0].x, vertex[1].y - 10, 10, 10);    // bottom left corner
-        overlayCtx.strokeRect(vertex[1].x - 10, vertex[1].y - 10, 10, 10);  //bottom right corner
-    }
+    // function drawFrame() {
+    //     overlayCtx.strokeRect(vertex[0].x, vertex[0].y, vertex[1].x - vertex[0].x, vertex[1].y - vertex[0].y);// frame
+    //     overlayCtx.strokeRect(vertex[0].x, vertex[0].y, 10, 10);    // top left corner
+    //     overlayCtx.strokeRect(vertex[1].x - 10, vertex[0].y, 10, 10);    // top right corner
+    //     overlayCtx.strokeRect(vertex[0].x, vertex[1].y - 10, 10, 10);    // bottom left corner
+    //     overlayCtx.strokeRect(vertex[1].x - 10, vertex[1].y - 10, 10, 10);  //bottom right corner
+    // }
 
-    function inBounds(testX, testY, x1, y1, width, height) {
-        let x2 = x1 + width - 1;
-        let y2 = y1 + height - 1;
-        if (testX >= x1 && testX <= x2 && testY >= y1 && testY <= y2) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    // function inBounds(testX, testY, x1, y1, width, height) {
+    //     let x2 = x1 + width - 1;
+    //     let y2 = y1 + height - 1;
+    //     if (testX >= x1 && testX <= x2 && testY >= y1 && testY <= y2) {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
 
-    function validateAndMove(deltaX, deltaY) {
-        let oldX = trackX.x;
-        let oldY = trackY.y;
-        trackX.x = startX + deltaX; 
-        trackY.y = startY + deltaY;
-        if (vertex[0].x > (vertex[1].x - 20)) {
-            trackX.x = oldX;
-        } 
-        if (vertex[0].y > (vertex[1].y - 20)) {
-            trackY.y = oldY;
-        }
-    }
-``
-    overlayCanvas.addEventListener('mousemove', function (event) {
-        const canvasRect = event.target.getBoundingClientRect();
-        let mouseX = event.clientX - canvasRect.left;
-        let mouseY = event.clientY - canvasRect.top;
-        if (dragging) {
-            overlayCtx.clearRect(vertex[0].x - 10, vertex[0].y - 10, vertex[1].x + 10, vertex[1].y + 10);
-            let deltaX = mouseX - startMouseX;
-            let deltaY = mouseY - startMouseY;
-            validateAndMove(deltaX, deltaY);
-            drawFrame();
-        }
-    });
+    // function validateAndMove(deltaX, deltaY) {
+    //     let oldX = trackX.x;
+    //     let oldY = trackY.y;
+    //     trackX.x = startX + deltaX; 
+    //     trackY.y = startY + deltaY;
+    //     if (vertex[0].x > (vertex[1].x - 20)) {
+    //         trackX.x = oldX;
+    //     } 
+    //     if (vertex[0].y > (vertex[1].y - 20)) {
+    //         trackY.y = oldY;
+    //     }
+    // }
 
-    overlayCanvas.addEventListener('mouseup', endDragging);
+    // overlayCanvas.addEventListener('mousemove', function (event) {
+    //     const canvasRect = event.target.getBoundingClientRect();
+    //     let mouseX = event.clientX - canvasRect.left;
+    //     let mouseY = event.clientY - canvasRect.top;
+    //     if (dragging) {
+    //         overlayCtx.clearRect(vertex[0].x - 10, vertex[0].y - 10, vertex[1].x + 10, vertex[1].y + 10);
+    //         let deltaX = mouseX - startMouseX;
+    //         let deltaY = mouseY - startMouseY;
+    //         validateAndMove(deltaX, deltaY);
+    //         drawFrame();
+    //     }
+    // });
 
-    overlayCanvas.addEventListener('mouseout', endDragging);
+    // overlayCanvas.addEventListener('mouseup', endDragging);
 
-    overlayCanvas.addEventListener('mousedown', function (event) {
-        const canvasRect = event.target.getBoundingClientRect();
-        let mouseX = event.clientX - canvasRect.left;
-        let mouseY = event.clientY - canvasRect.top;
-        if (inBounds(mouseX, mouseY, vertex[0].x, vertex[0].y, 10, 10)) {    //top left corner 
-            startDragging(vertex[0], vertex[0], mouseX, mouseY);
-        } else if (inBounds(mouseX, mouseY, vertex[1].x - 10, vertex[0].y, 10, 10)) {   //top right corner
-            startDragging(vertex[1], vertex[0], mouseX, mouseY);
-        } else if (inBounds(mouseX, mouseY, vertex[0].x, vertex[1].y - 10, 10, 10)) {   //bottom left corner
-            startDragging(vertex[0], vertex[1], mouseX, mouseY);
-        } else if (inBounds(mouseX, mouseY, vertex[1].x - 10, vertex[1].y - 10, 10, 10)) {   //bottom right corner
-            startDragging(vertex[1], vertex[1],mouseX, mouseY);
-        }
-    });
+    // overlayCanvas.addEventListener('mouseout', endDragging);
 
-    function startDragging(vertexX, vertexY, mouseX, mouseY) {
-        dragging = true;
-        trackX = vertexX;
-        trackY = vertexY;
-        startX = trackX.x;
-        startY = trackY.y;
-        startMouseX = mouseX;
-        startMouseY = mouseY;
-    }
+    // overlayCanvas.addEventListener('mousedown', function (event) {
+    //     const canvasRect = event.target.getBoundingClientRect();
+    //     let mouseX = event.clientX - canvasRect.left;
+    //     let mouseY = event.clientY - canvasRect.top;
+    //     if (inBounds(mouseX, mouseY, vertex[0].x, vertex[0].y, 20, 20)) {    //top left corner 
+    //         startDragging(vertex[0], vertex[0], mouseX, mouseY);
+    //     } else if (inBounds(mouseX, mouseY, vertex[1].x - 20, vertex[0].y, 20, 20)) {   //top right corner
+    //         startDragging(vertex[1], vertex[0], mouseX, mouseY);
+    //     } else if (inBounds(mouseX, mouseY, vertex[0].x, vertex[1].y - 20, 20, 20)) {   //bottom left corner
+    //         startDragging(vertex[0], vertex[1], mouseX, mouseY);
+    //     } else if (inBounds(mouseX, mouseY, vertex[1].x - 20, vertex[1].y - 20, 20, 20)) {   //bottom right corner
+    //         startDragging(vertex[1], vertex[1],mouseX, mouseY);
+    //     }
+    // });
 
-    function endDragging() {
-        dragging = false;
-        console.log('dragging: ', dragging);
-    }
+    // function startDragging(vertexX, vertexY, mouseX, mouseY) {
+    //     dragging = true;
+    //     trackX = vertexX;
+    //     trackY = vertexY;
+    //     startX = trackX.x;
+    //     startY = trackY.y;
+    //     startMouseX = mouseX;
+    //     startMouseY = mouseY;
+    // }
 
-    //image upload preview
-    function imagePreview() {
-        console.log('preview...');
-        const preview = document.getElementById('img-preview');
-        const file = document.getElementById('image-file').files[0];
-        console.log(preview, file);
-        const reader = new FileReader();
-
-        reader.addEventListener('load', () => {
-            preview.src = reader.result;
-            console.log('loaded');
-        });
-
-        if (file) {
-            console.log('file present');
-            reader.readAsDataURL(file);
-        }
-    }
-        
+    // function endDragging() {
+    //     dragging = false;
+    //     console.log('dragging: ', dragging);
+    // }
 
          //**** functions for rating slider in post form
     function addNewSlider() {
@@ -301,7 +288,7 @@ let ratingControlCount = 0;
 
     addNewSlider();
 
-    setFramePosition(150, 150, 649, 649);
-    drawFrame();
+    //setFramePosition(150, 150, 649, 649);
+    //drawFrame();
 })();//end of IIFE
 });

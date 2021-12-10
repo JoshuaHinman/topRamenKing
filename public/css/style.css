@@ -55,6 +55,7 @@ input {
     border-style: solid;
     width: 100%;
     display: inline-block;
+    background-color: #fdf5e6;
 }
 
 .modal-form {

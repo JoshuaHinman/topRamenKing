@@ -4,8 +4,8 @@
     <div class="spacer" id="homeTab">
         <div class="nav-button"><a class="nav-link" href="/">Home</a></div>
     </div>
-    <div class="spacer">
-        <div class="nav-button"><a class="nav-link" href="#">About</a></div>
+    <div class="spacer" id="searchTab">
+        <div class="nav-button modal-tab" data-form="searchForm"><a class="nav-link" href="#">Search</a></div>
     </div>
     <div class="spacer" id="postTab">
         <div class="nav-button" data-form="postForm"><a class="nav-link" href="/reviews/new">Post</a></div>
@@ -29,4 +29,5 @@
     <%- include('logoutForm')-%>
     <%- include('profileForm')-%>
     <%- include('flashMessageForm')-%>
+    <%- include('searchForm')-%>
 </div>

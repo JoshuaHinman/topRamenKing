@@ -16,33 +16,24 @@ const storage = multer.diskStorage({
   })
 const upload = multer({ storage: storage })
 
-function authMiddleware (req, res, next) {
-    console.log(req.session.userId)
-    User.findById(req.session.userId, (err, user) => {
-        if (err || !user) {
-            console.log('error')
-           // return res.redirect('/')
-        }
-        next()
-    })
-}
-
-function getRatingsArray(body) {
-    let keys = Object.keys(body)
-    let iconKeys = keys.filter( key => key.slice(0, -1) === 'icon')
-    let ratingKeys = keys.filter( key => key.slice(0, -1) === 'rating')
-    let result = []
-    for (let i = 0; i < iconKeys.length; i++) {
-        result.push({ icon: body[iconKeys[i]], rating: body[ratingKeys[i]] })
-    }
-    return result
-}
-
-
 //Get all
 router.get('/', async (req, res) => {
     try {
         const reviewArray = await Review.find({}).populate('userid')
+        res.render('reviews', {reviewArray: reviewArray, login: req.session.userName})
+    } catch (err) {
+        res.status(500).json({ message: err.message})
+    }
+});
+
+//search
+router.get('/search/:query', async (req, res) => {
+    //const query = req.params.query;
+    const query = new RegExp(req.params.query, 'i') 
+    try {
+        const reviewArray = await Review.find( {$or: [{ title: query},
+                                                     { subtitle: query},
+                                                     { text: query}]}).populate('userid')
         res.render('reviews', {reviewArray: reviewArray, login: req.session.userName})
     } catch (err) {
         res.status(500).json({ message: err.message})
@@ -124,4 +115,42 @@ async function getReview(req, res, next) {
     res.review = review;
     next();
 }
+
+async function getReview(req, res, next) {
+    let review;
+    try {
+        review = await Review.findById(req.params.id);
+        if (review == null) {
+            return res.status(404).json({message: "cannot find"});
+        }
+    } catch (err){
+        return res.status(500).json({message: "YO" + err.message});
+    }
+    res.review = review;
+    next();
+}
+
+function authMiddleware (req, res, next) {
+    console.log(req.session.userId)
+    User.findById(req.session.userId, (err, user) => {
+        if (err || !user) {
+            console.log('error')
+           // return res.redirect('/')
+        }
+        next()
+    })
+}
+
+function getRatingsArray(body) {
+    let keys = Object.keys(body)
+    let iconKeys = keys.filter( key => key.slice(0, -1) === 'icon')
+    let ratingKeys = keys.filter( key => key.slice(0, -1) === 'rating')
+    let result = []
+    for (let i = 0; i < iconKeys.length; i++) {
+        result.push({ icon: body[iconKeys[i]], rating: body[ratingKeys[i]] })
+    }
+    return result
+}
+
+
 module.exports = router;

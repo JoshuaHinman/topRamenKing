@@ -24,8 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
 (function() {
     const logoutForm = document.getElementById('logoutForm');
+    const searchForm = document.getElementById('searchForm');
+
     const formArray = [ logoutForm,
                         flashMessage,
+                        searchForm,
                         document.getElementById('signupForm'),
                         document.getElementById('loginForm'),
                         document.getElementById('profileForm')];
@@ -93,6 +96,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     Array.from(document.querySelectorAll('.x-button')).
         forEach((button) => button.addEventListener('click', hideForm));
+
+
+    searchForm.querySelector('input[type="text"]').onchange = (event) => {
+        const query = event.target.value;
+        console.log(query)
+        searchForm.setAttribute('action', '/reviews/search/' + query)
+        console.log(searchForm.getAttribute('action'))
+    }
 
     logoutForm.addEventListener('submit', () => {
         fetch('users/logout')

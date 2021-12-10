@@ -1,5 +1,5 @@
 <head>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <%- include('layouts/header')-%>
@@ -21,11 +21,11 @@
                         <div class="rating">
                             <% let icon = reviewArray[i].ratings[r].icon %>
                             <% let totalIcons = reviewArray[i].ratings[r].rating %>
-                            <% for (let count = 1; count < totalIcons; count++) { %>
+                            <% for (let count = 1, end = Math.floor(totalIcons); count <= end; count++) { %>
                                 <span><%=icon%></span>
                             <% } %>
                             <% if(totalIcons > Math.floor(totalIcons)) {%>
-                                <span style="position:relative;"><%= icon %><span style="position: absolute; height: 125%; width: 50%; background-color: white; right: 0; opacity: 1;"></span></span>
+                                <span style="position:relative;"><%= icon %><span style="position: absolute; height: 125%; width: 50%; background-color: #fdf5e6; right: 0; opacity: 1;"></span></span>
                             <% } %>
                         </div>
                  <% } %>
@@ -37,5 +37,5 @@
     </main>
 </body>
 <footer>
-    <script src="scripts/navbarScript.js"></script> 
+    <script src="/scripts/navbarScript.js"></script> 
 </footer>

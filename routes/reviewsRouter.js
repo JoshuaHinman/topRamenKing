@@ -16,11 +16,23 @@ const storage = multer.diskStorage({
   })
 const upload = multer({ storage: storage })
 
-//Get all
+//Get first 4
 router.get('/', async (req, res) => {
     try {
-        const reviewArray = await Review.find({}).populate('userid')
-        res.render('reviews', {reviewArray: reviewArray, login: req.session.userName})
+        //const reviewArray = await Review.find({}).populate('userid')
+        const reviewArray = await Review.find({}, null, {limit: 4}).lean().populate('userid')
+        res.render('reviews', {reviewArray: reviewArray, login: req.session.userName, userDate: req.session.userSignup})
+    } catch (err) {
+        res.status(500).json({ message: err.message})
+    }
+});
+
+//Get 
+router.get('/page/:page', async (req, res) => {
+    try {
+        const page = parseInt(req.params.page, 10) || 1;
+        const reviewArray = await Review.find({}, null, {skip: (page - 1) * 4, limit: 4}).lean().populate('userid')
+        res.status(200).json(reviewArray)
     } catch (err) {
         res.status(500).json({ message: err.message})
     }
@@ -34,14 +46,14 @@ router.get('/search/:query', async (req, res) => {
         const reviewArray = await Review.find( {$or: [{ title: query},
                                                      { subtitle: query},
                                                      { text: query}]}).populate('userid')
-        res.render('reviews', {reviewArray: reviewArray, login: req.session.userName})
+        res.render('reviews', {reviewArray: reviewArray, login: req.session.userName, userDate: req.session.userSignup})
     } catch (err) {
         res.status(500).json({ message: err.message})
     }
 });
 
 router.get('/new', (req, res) => {
-    res.render('createPost', {login: req.session.userName})
+    res.render('createPost', {login: req.session.userName, userDate: req.session.userSignup})
 });
 
 //Create one
@@ -63,7 +75,7 @@ router.post('/create', authMiddleware, upload.single('file'), async (req, res) =
         const newReview = await review.save();
         fs.unlink(path.join(__dirname + '/../public/images/' + req.file.filename),function(err){
             if(err) return console.log(err);
-            console.log('file deleted successfully');
+            console.log('temp file deleted successfully');
        });  
         res.redirect('/reviews')
     } catch (err) {

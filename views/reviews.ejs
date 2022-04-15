@@ -3,11 +3,6 @@
 </head>
 <body>
     <%- include('layouts/header')-%>
-    <% if (login) { %>
-        <p id="logged-in">Logged in as: <span><%=login%></span></p>
-    <% } else {%>
-        <p id="logged-in">Logged out</p>
-    <% } %>
     <main>
         <% for (let i = 0; i < reviewArray.length; i++) { %>
             <div class="review-container">
@@ -15,8 +10,8 @@
                     <img src ="data:image/<%=reviewArray[i].image[0].contentType%>;base64, <%=reviewArray[i].image[0].data.toString('base64')%>" width="300px" height="300px"> 
                 </div>
                 <div style="float: right; width:55%">
-                    <h1 style="display: inline-block;" "><%= reviewArray[i].title %></h1><br>
-                    <h2 style="display: inline-block;" "><%= reviewArray[i].subtitle %></h2><br>
+                    <h1 style="display: inline-block;"><%= reviewArray[i].title %></h1><br>
+                    <h2 style="display: inline-block;"><%= reviewArray[i].subtitle %></h2><br>
                     <% for (let r = 0; r < reviewArray[i].ratings.length; r++) { %>
                         <div class="rating">
                             <% let icon = reviewArray[i].ratings[r].icon %>
@@ -35,7 +30,24 @@
             </div>
         <% } %>
     </main>
+    <div class="loading-bar">Loading...</div>
 </body>
 <footer>
-    <script src="/scripts/navbarScript.js"></script> 
+    <script src="/scripts/navbarScript.js"></script>
+    <script src="/scripts/imageLoaderScript.js"></script>
+    <script src="/scripts/handlebars.min.js"></script>
+    <script type="text/x-handlebars" id="review">
+        <div class="review-container">
+        <div class="image-container">
+            <img class="review-img">
+        </div>
+        <div class="review-content">
+            <h1 class="review-title">{{title}}</h1><br>
+            <h2 class="review-subtitle">{{subtitle}}</h2><br>
+            <div class="rating"></div>
+            <h4 class="review-text">{{text}}</h4>
+            <p>Posted by {{userid.username}}</p>
+        </div>
+        </div>
+    </script>
 </footer>

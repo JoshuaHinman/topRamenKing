@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/userModel');
 const bcrypt = require('bcrypt')
-//const path = require('path')
 
 router.post('/signup', async (req, res) => {
     const user = new User({
@@ -26,9 +25,10 @@ router.post('/login', (req, res) => {
         if (user) {
             bcrypt.compare(password, user.password, (err, same) => {
                 if(same) {
-                    console.log("I'm in")
+                    console.log("login successful")
                     req.session.userId = user._id;
                     req.session.userName = user.username;
+                    req.session.userSignup = user.signupDate;
                     res.redirect('/reviews')
                 } else {
                     console.log("declined: wrong password")

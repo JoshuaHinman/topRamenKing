@@ -224,10 +224,43 @@ fieldset{
         width: 80%;
     }
     
-    
     .review-container {
         border-style: solid;
         width: 98%;
         display: inline-block;
     }
   }
+
+  .loading-bar {
+      width: 100%;
+      height: 1.25em;
+      border: 2px solid black;
+      border-radius: 3px;
+      text-align: center;
+      font-size: 2.5em;
+      display: none;
+  }
+
+  .image-container {
+    float: left;
+    width: 40%;
+   }
+
+   .review-image {
+    width: 300px;
+    height: 300px;
+   }
+
+   .review-content {
+    float: right;
+    width: 55%;
+   }
+
+   .review-img {
+    width: 300px;
+    height: 300px;
+   }
+
+   .review-title,  .review-subtitle, .review-text{
+    display: inline-block;
+   }

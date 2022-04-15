@@ -2,5 +2,9 @@
     <div class="x-button"></div>
     <fieldset>
         <legend>Profile</legend>
+        <% if (login) { %>
+            <p><%=login%></p>
+            <p>User since: <%= userDate.split('T')[0] %></p>
+        <% } %>
     </fieldset>
 </form>

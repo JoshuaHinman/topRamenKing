@@ -134,97 +134,7 @@ let ratingControlCount = 0;
             }
         }
     }
-
-    // function setFramePosition(x, y, x2, y2) {
-    //     vertex[0].x = x;
-    //     vertex[0].y = y;
-    //     vertex[1].x = x2;
-    //     vertex[1].y = y2;
-    //     vertex[2].x = x2 - (x / 2);
-    //     vertex[2].y = y2 - (y / 2);
-    //     frameWidth = x2 - x + 1;
-    //     frameHeight = y2 - y + 1;
-    // }
-
-    // function drawFrame() {
-    //     overlayCtx.strokeRect(vertex[0].x, vertex[0].y, vertex[1].x - vertex[0].x, vertex[1].y - vertex[0].y);// frame
-    //     overlayCtx.strokeRect(vertex[0].x, vertex[0].y, 10, 10);    // top left corner
-    //     overlayCtx.strokeRect(vertex[1].x - 10, vertex[0].y, 10, 10);    // top right corner
-    //     overlayCtx.strokeRect(vertex[0].x, vertex[1].y - 10, 10, 10);    // bottom left corner
-    //     overlayCtx.strokeRect(vertex[1].x - 10, vertex[1].y - 10, 10, 10);  //bottom right corner
-    // }
-
-    // function inBounds(testX, testY, x1, y1, width, height) {
-    //     let x2 = x1 + width - 1;
-    //     let y2 = y1 + height - 1;
-    //     if (testX >= x1 && testX <= x2 && testY >= y1 && testY <= y2) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
-
-    // function validateAndMove(deltaX, deltaY) {
-    //     let oldX = trackX.x;
-    //     let oldY = trackY.y;
-    //     trackX.x = startX + deltaX; 
-    //     trackY.y = startY + deltaY;
-    //     if (vertex[0].x > (vertex[1].x - 20)) {
-    //         trackX.x = oldX;
-    //     } 
-    //     if (vertex[0].y > (vertex[1].y - 20)) {
-    //         trackY.y = oldY;
-    //     }
-    // }
-
-    // overlayCanvas.addEventListener('mousemove', function (event) {
-    //     const canvasRect = event.target.getBoundingClientRect();
-    //     let mouseX = event.clientX - canvasRect.left;
-    //     let mouseY = event.clientY - canvasRect.top;
-    //     if (dragging) {
-    //         overlayCtx.clearRect(vertex[0].x - 10, vertex[0].y - 10, vertex[1].x + 10, vertex[1].y + 10);
-    //         let deltaX = mouseX - startMouseX;
-    //         let deltaY = mouseY - startMouseY;
-    //         validateAndMove(deltaX, deltaY);
-    //         drawFrame();
-    //     }
-    // });
-
-    // overlayCanvas.addEventListener('mouseup', endDragging);
-
-    // overlayCanvas.addEventListener('mouseout', endDragging);
-
-    // overlayCanvas.addEventListener('mousedown', function (event) {
-    //     const canvasRect = event.target.getBoundingClientRect();
-    //     let mouseX = event.clientX - canvasRect.left;
-    //     let mouseY = event.clientY - canvasRect.top;
-    //     if (inBounds(mouseX, mouseY, vertex[0].x, vertex[0].y, 20, 20)) {    //top left corner 
-    //         startDragging(vertex[0], vertex[0], mouseX, mouseY);
-    //     } else if (inBounds(mouseX, mouseY, vertex[1].x - 20, vertex[0].y, 20, 20)) {   //top right corner
-    //         startDragging(vertex[1], vertex[0], mouseX, mouseY);
-    //     } else if (inBounds(mouseX, mouseY, vertex[0].x, vertex[1].y - 20, 20, 20)) {   //bottom left corner
-    //         startDragging(vertex[0], vertex[1], mouseX, mouseY);
-    //     } else if (inBounds(mouseX, mouseY, vertex[1].x - 20, vertex[1].y - 20, 20, 20)) {   //bottom right corner
-    //         startDragging(vertex[1], vertex[1],mouseX, mouseY);
-    //     }
-    // });
-
-    // function startDragging(vertexX, vertexY, mouseX, mouseY) {
-    //     dragging = true;
-    //     trackX = vertexX;
-    //     trackY = vertexY;
-    //     startX = trackX.x;
-    //     startY = trackY.y;
-    //     startMouseX = mouseX;
-    //     startMouseY = mouseY;
-    // }
-
-    // function endDragging() {
-    //     dragging = false;
-    //     console.log('dragging: ', dragging);
-    // }
-
-         //**** functions for rating slider in post form
+    //**** functions for rating slider in post form
     function addNewSlider() {
         const newRating = ratingControl.cloneNode(true);
         const selector = newRating.querySelector('.icon-selector');
@@ -258,7 +168,7 @@ let ratingControlCount = 0;
         console.log(icon, iconCount, icon.repeat(iconCount));
         display.textContent = icon.repeat(iconCount);
 
-        if (Math.floor(iconCount) < iconCount) {                    // if there's a trailing .5 star
+        if (Math.floor(iconCount) < iconCount) {  // if there's a .5 star
             const leftHalf = document.createElement('span');
             const rightHalf = document.createElement('span');
             leftHalf.textContent = icon;

@@ -7,7 +7,7 @@
     <div id="post-layout">
         <form action="reviews/create" method="post" encType="multipart/form-data" id="post-form-data" style="position:relative">
             <fieldset>
-                <h3>Post A Review</h3>
+                <h3>Edit A Review</h3>
                 <label for="title">Title</label><br>
                 <input type="text" name="title" size="80" autocomplete="off"><br>
                 <label for="subtitle">Subtitle</label><br>
@@ -23,7 +23,7 @@
             <label for="photo" class="large-button">Add Photo...</label>
             <input type="file" id="photo" name="photo" style="visibility: hidden;">
             <!-- <span style="font-size: xx-large;">🠗 Drag frame corners to crop image 🠗</span> -->
-            <span style="font-size: xx-large;">🠗 Image will crop to square shape</span>
+            <span style="font-size: xx-large;">Image will crop to square shape</span>
             <input type="button" id="rotate-clockwise" value="Rotate ↷90°">
             <div id="cropped-frame">
                 <canvas id="cropped-canvas"></canvas>

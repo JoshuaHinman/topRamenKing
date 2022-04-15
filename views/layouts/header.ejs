@@ -31,3 +31,8 @@
     <%- include('flashMessageForm')-%>
     <%- include('searchForm')-%>
 </div>
+<% if (login) { %>
+    <p id="logged-in">Logged in as: <span><%=login%></span></p>
+<% } else {%>
+    <p id="logged-in">Logged out</p>
+<% } %>

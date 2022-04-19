@@ -27,27 +27,29 @@
                     <h4 style="display: inline-block;"><%= reviewArray[i].text %></h4>
                     <p>Posted by <%= reviewArray[i].userid.username%></p>
                 </div>
+                <a href="reviews/edit/<%= reviewArray[i]._id %>" class="edit-button" >Edit</a>
             </div>
         <% } %>
     </main>
-    <div class="loading-bar">Loading...</div>
+    <div class="loading-bar" data-search="<%= reviewArray.search %>">Loading...</div>
 </body>
 <footer>
     <script src="/scripts/navbarScript.js"></script>
-    <script src="/scripts/imageLoaderScript.js"></script>
+    <script src="/scripts/reviewLoaderScript.js"></script>
     <script src="/scripts/handlebars.min.js"></script>
     <script type="text/x-handlebars" id="review">
         <div class="review-container">
-        <div class="image-container">
-            <img class="review-img">
-        </div>
-        <div class="review-content">
-            <h1 class="review-title">{{title}}</h1><br>
-            <h2 class="review-subtitle">{{subtitle}}</h2><br>
-            <div class="rating"></div>
-            <h4 class="review-text">{{text}}</h4>
-            <p>Posted by {{userid.username}}</p>
-        </div>
+            <div class="image-container">
+                <img class="review-img">
+            </div>
+            <div class="review-content">
+                <h1 class="review-title">{{title}}</h1><br>
+                <h2 class="review-subtitle">{{subtitle}}</h2><br>
+                <div class="rating"></div>
+                <h4 class="review-text">{{text}}</h4>
+                <p>Posted by {{userid.username}}</p>
+            </div>
+            <a href="/reviews/edit/{{_id}}" class="edit-button">Edit</a>
         </div>
     </script>
 </footer>

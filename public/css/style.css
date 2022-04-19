@@ -52,6 +52,7 @@ input {
 }
 
 .review-container {
+    position: relative;
     border-style: solid;
     width: 100%;
     display: inline-block;
@@ -264,3 +265,21 @@ fieldset{
    .review-title,  .review-subtitle, .review-text{
     display: inline-block;
    }
+
+   .edit-button {
+    box-sizing: border-box;
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    border: 1px solid black;
+    padding: 2px;
+    text-decoration: none;
+    color: black;
+    font-size: large;
+}
+.edit-button:hover {
+    background-color: rgb(252, 252, 189);
+    border: 2px solid black;
+    right: 4px;
+    bottom: 4px;
+}

@@ -49,9 +49,12 @@ let ratingControlCount = 0;
             submitPost = true;
             const request = new XMLHttpRequest();
             let formData = new FormData(postFormData);
-            request.open('POST', 'create');
+            const id = postFormData.dataset.id
+            console.log(id)
+            request.open(postFormData.method, postFormData.action + id);
+            console.log(postFormData.method, postFormData.action + id);
             request.onload = function() {
-            window.location = "../";
+                window.location = "../";
             };
             
             let imgFile;
@@ -134,11 +137,14 @@ let ratingControlCount = 0;
             }
         }
     }
+
     //**** functions for rating slider in post form
-    function addNewSlider() {
+    function addNewSlider(icon, value) {
         const newRating = ratingControl.cloneNode(true);
         const selector = newRating.querySelector('.icon-selector');
         const slider = newRating.querySelector('.rating-slider');
+        if (icon) selector.value = icon;
+        if (value) slider.value = value;
         ratingControlCount += 1;
         selector.addEventListener('input', (event) => setDisplay(event.target.parentNode));
         selector.name = selector.name + ratingControlCount;
@@ -150,15 +156,7 @@ let ratingControlCount = 0;
         document.querySelector('#add-del-controls').insertAdjacentElement('beforebegin', newRating)
         setDisplay(newRating);
         styleAddDeleteLabel(ratingControlCount) ;
-    }
-
-    function removeSlider() {
-        if (ratingControlCount > 1) {
-            const sliders = document.querySelectorAll('.rating-control');
-            sliders[sliders.length - 1].remove();
-            ratingControlCount -= 1;
-            styleAddDeleteLabel(ratingControlCount);
-        }
+        return newRating;
     }
 
     function setDisplay(parent) {
@@ -179,6 +177,16 @@ let ratingControlCount = 0;
         }
     }
 
+
+    function removeSlider() {
+        if (ratingControlCount > 1) {
+            const sliders = document.querySelectorAll('.rating-control');
+            sliders[sliders.length - 1].remove();
+            ratingControlCount -= 1;
+            styleAddDeleteLabel(ratingControlCount);
+        }
+    }
+
     function styleAddDeleteLabel(sliderCount) {
         const label = document.getElementById('add-del-label');
         const delButton = document.getElementById('del-button');
@@ -192,11 +200,50 @@ let ratingControlCount = 0;
         }
     }
 
+    function initEditForm() {
+        const ratings = document.getElementById('rating-string').dataset.rating.split(',')
+        //set rating sliders
+        ratings.forEach((rating) => {
+            //extract icon , rating values
+            let delimiter = 0;
+            while( !rating[delimiter].match(/[0-9\.]/) ) delimiter++;
+            const icon = rating.slice(0,delimiter);
+            const value = parseFloat(rating.slice(delimiter));
+            console.log(icon, value)
+
+            //create slider, set values
+            addNewSlider(icon, value);
+        })
+        copyImgToCanvas();
+    }
+
+    function copyImgToCanvas() {
+        const tempImg = document.getElementById('temp-img');
+        let attempt = 0;
+        if (tempImg.complete) { //check if img loaded
+            image = new Image();
+            image.src = tempImg.src;
+            image.onload = () => {
+                rotateImg = 0;
+                scaleAndRenderImage(image, photoCanvas);
+            }
+            tempImg.remove();
+        } else if (attempt < 10) { //try 10 times
+            attempt++;
+            setInterval(() => {copyImgToCanvas}, 1000);
+        }
+    }
+
     document.getElementById('add-button').addEventListener('click', addNewSlider);
     document.getElementById('del-button').addEventListener('click', removeSlider);
     ratingControl.remove();
 
-    addNewSlider();
+
+    if (document.getElementById('rating-string')) { // if editing
+        initEditForm();
+    } else {    // if new
+        addNewSlider();
+    }
 
     //setFramePosition(150, 150, 649, 649);
     //drawFrame();

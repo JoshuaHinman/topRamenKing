@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const flashMessage = document.getElementById('flash-message-form');
-
+    
     function hideForm(event) {
         event.preventDefault();
         const form = event.target.closest('form');

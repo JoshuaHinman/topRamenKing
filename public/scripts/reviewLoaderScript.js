@@ -2,10 +2,11 @@ document.addEventListener('DOMContentLoaded', ()=> {
     let page = 1;
     let last = null;
     const loadingBar = document.querySelector('.loading-bar');
+    const searchResults = loadingBar.dataset.search;
     let lastReview = document.querySelector('main > div:last-of-type');
     const reviewTemplate = Handlebars.compile(document.getElementById('review').innerHTML);
-    const observer = new IntersectionObserver(loadMoreReviews)
-    observer.observe(lastReview)
+    const observer = new IntersectionObserver(loadMoreReviews);
+    if (searchResults !== 'true') observer.observe(lastReview);
 
     async function loadMoreReviews(nodeArr) {
         if (nodeArr[0].isIntersecting && page != last) {

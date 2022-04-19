@@ -40,12 +40,12 @@ router.get('/page/:page', async (req, res) => {
 
 //search
 router.get('/search/:query', async (req, res) => {
-    //const query = req.params.query;
     const query = new RegExp(req.params.query, 'i') 
     try {
         const reviewArray = await Review.find( {$or: [{ title: query},
                                                      { subtitle: query},
                                                      { text: query}]}).populate('userid')
+        reviewArray['search'] = true;
         res.render('reviews', {reviewArray: reviewArray, login: req.session.userName, userDate: req.session.userSignup})
     } catch (err) {
         res.status(500).json({ message: err.message})
@@ -54,6 +54,11 @@ router.get('/search/:query', async (req, res) => {
 
 router.get('/new', (req, res) => {
     res.render('createPost', {login: req.session.userName, userDate: req.session.userSignup})
+});
+
+router.get('/edit/:id',async (req, res) => {
+    const review = await Review.find({_id: req.params.id}, null, {}).lean().populate('userid')
+    res.render('editPost', {review: review[0], login: req.session.userName, userDate: req.session.userSignup})
 });
 
 //Create one
@@ -77,6 +82,34 @@ router.post('/create', authMiddleware, upload.single('file'), async (req, res) =
             if(err) return console.log(err);
             console.log('temp file deleted successfully');
        });  
+        res.redirect('/reviews')
+    } catch (err) {
+        res.status(400).json({message: err.message});
+    }
+});
+
+//update
+router.post('/edit/:id', authMiddleware, upload.single('file'), async (req, res) => {
+    console.log('editing');
+    let review = {
+        title: req.body.title,
+        subtitle: req.body.subtitle,
+        text: req.body.text,
+        ratings: getRatingsArray(req.body),
+        image:[{name: req.file.filename,
+                contentType: req.file.mimetype,
+                data: fs.readFileSync(path.join(__dirname + '/../public/images/' + req.file.filename))
+        }],
+        userid: req.session.userId
+    }
+    
+    try {
+        const result = await Review.updateOne({_id: req.params.id}, review);
+        fs.unlink(path.join(__dirname + '/../public/images/' + req.file.filename),function(err){
+            if(err) return console.log(err);
+            console.log('temp file deleted successfully');
+       });
+       console.log(result)
         res.redirect('/reviews')
     } catch (err) {
         res.status(400).json({message: err.message});

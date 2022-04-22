@@ -30,8 +30,14 @@ document.addEventListener('DOMContentLoaded', ()=> {
 
     function renderReviews(arr) {
         let parentNode = document.querySelector('main');
+        const login = document.getElementById('logged-in').dataset.id;
         arr.forEach((review) => {
             parentNode.insertAdjacentHTML('beforeend', reviewTemplate(review));
+
+            //remove edit button from review if login name doesnt match review's username or yoshie
+            if (login !== review.userid.username && login !== 'yoshie') { 
+                parentNode.lastElementChild.lastElementChild.remove();
+            }
 
             //set img src
             let imgSrc = `data:image/${review.image[0].contentType};base64, ${review.image[0].data.toString('base64')}`

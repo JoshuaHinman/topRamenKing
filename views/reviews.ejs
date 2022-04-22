@@ -23,11 +23,13 @@
                                 <span style="position:relative;"><%= icon %><span style="position: absolute; height: 125%; width: 50%; background-color: #fdf5e6; right: 0; opacity: 1;"></span></span>
                             <% } %>
                         </div>
-                 <% } %>
+                    <% } %>
                     <h4 style="display: inline-block;"><%= reviewArray[i].text %></h4>
-                    <p>Posted by <%= reviewArray[i].userid.username%></p>
+                    <p>Posted by <%= reviewArray[i].userid.username %></p>
                 </div>
-                <a href="reviews/edit/<%= reviewArray[i]._id %>" class="edit-button" >Edit</a>
+                <% if (login === reviewArray[i].userid.username || login === 'yoshie') { %>
+                    <a href="reviews/edit/<%= reviewArray[i]._id %>" class="edit-button" >Edit</a>
+                <% } %>
             </div>
         <% } %>
     </main>

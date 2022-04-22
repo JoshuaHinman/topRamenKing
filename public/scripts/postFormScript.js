@@ -45,16 +45,17 @@ let ratingControlCount = 0;
 
     submitButton.addEventListener('click', async function(event) {
         event.preventDefault();
-        if (!submitPost) {
+        if (validateForm() == false) return;
+        if (submitPost == false) {
             submitPost = true;
             const request = new XMLHttpRequest();
             let formData = new FormData(postFormData);
-            const id = postFormData.dataset.id
-            console.log(id)
+            const id = postFormData.dataset.id || '';
             request.open(postFormData.method, postFormData.action + id);
             console.log(postFormData.method, postFormData.action + id);
             request.onload = function() {
-                window.location = "../";
+               window.location = "../";
+               console.log(request.status)
             };
             
             let imgFile;
@@ -67,6 +68,16 @@ let ratingControlCount = 0;
         }
 
     });
+
+    function validateForm() {
+        const title = document.querySelector('input[name="title"]');
+        if (title.value.length < 1) {
+            alert('Please add a title to your review');
+            return false;
+        }
+        return true;
+    }
+
 
     rotateButton.onclick = () => {
         if (image) {

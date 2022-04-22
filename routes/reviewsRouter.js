@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-//Get 
+//Get page
 router.get('/page/:page', async (req, res) => {
     try {
         const page = parseInt(req.params.page, 10) || 1;
@@ -100,7 +100,7 @@ router.post('/edit/:id', authMiddleware, upload.single('file'), async (req, res)
                 contentType: req.file.mimetype,
                 data: fs.readFileSync(path.join(__dirname + '/../public/images/' + req.file.filename))
         }],
-        userid: req.session.userId
+        //userid: req.session.userId
     }
     
     try {

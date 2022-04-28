@@ -133,12 +133,11 @@ router.patch('/:id', getReview, async (req, res) => {
 //Delete one
 router.post('/delete/:id', getReview, async (req, res) => {
     try {
-        let title = res.review.title;
-        await res.review.remove();
-        console.log('deleted')
-        res.json({ message: "Deleted review " + title});
+        await Review.deleteOne({ _id: req.params.id });
+        console.log('deleted');
+        res.redirect('/reviews')
     } catch (err) {
-        console.log('failed to delete')
+        console.log('failed to delete');
         res.status(500).json({ message: err.message});
     }
 

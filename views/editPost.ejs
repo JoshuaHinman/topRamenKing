@@ -3,10 +3,12 @@
 </head>
 <body style="background-color: whitesmoke;">
     <%- include('layouts/header')-%>
+    <%- include('layouts/deleteForm')-%>
     <main>
     <div id="post-layout">
         <form action="../edit/" method="post" encType="multipart/form-data" id="post-form-data" style="position:relative" data-id="<%= review._id %>">
             <fieldset>
+                <input type="button" id="delete-button" value="Delete Post" >
                 <h3>Edit A Review</h3>
                 <label for="title">Title</label><br>
                 <input type="text" name="title" size="80" autocomplete="off" value="<%= review.title %>"><br>

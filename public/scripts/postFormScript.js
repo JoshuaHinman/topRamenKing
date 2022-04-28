@@ -3,6 +3,9 @@ document.addEventListener('DOMContentLoaded', () => {
 const ratingControl = document.querySelector('.rating-control');
 let ratingControlCount = 0;
 (function() {
+    const deleteButton = document.getElementById('delete-button');
+    const deleteForm = document.getElementById('delete-form');
+
     const photoCanvas = document.createElement('canvas');//   document.getElementById('photo-canvas');
     const croppedCanvas = document.getElementById('cropped-canvas');
     const croppedFrame = document.getElementById('cropped-frame');
@@ -42,6 +45,14 @@ let ratingControlCount = 0;
         startY,
         startMouseX,
         startMouseY;
+
+    if (deleteButton) {
+        deleteButton.addEventListener('click', () => {
+            deleteForm.style.visibility = 'visible';
+        });
+    }
+
+
 
     submitButton.addEventListener('click', async function(event) {
         event.preventDefault();

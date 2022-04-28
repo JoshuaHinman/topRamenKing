@@ -6,18 +6,19 @@ body {
     padding: 0px;
 }
 
-h1, h3 {
-    text-align: center;
-}
-
 main {
     width: 100%;
     margin:0 auto;
 }
 
+h1, h3 {
+    text-align: center;
+}
+
 input {
     font-size: medium;
 }
+
 .centered {
     margin: 0 auto;
     display: block;
@@ -282,4 +283,10 @@ fieldset{
     border: 2px solid black;
     right: 4px;
     bottom: 4px;
+}
+
+.cancel-button, .delete-button {
+    width: 200px;
+    height: 30px;
+    float: right;
 }

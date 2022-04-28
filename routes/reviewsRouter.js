@@ -131,12 +131,14 @@ router.patch('/:id', getReview, async (req, res) => {
 });
 
 //Delete one
-router.delete('/:id', getReview, async (req, res) => {
+router.post('/delete/:id', getReview, async (req, res) => {
     try {
         let title = res.review.title;
         await res.review.remove();
+        console.log('deleted')
         res.json({ message: "Deleted review " + title});
     } catch (err) {
+        console.log('failed to delete')
         res.status(500).json({ message: err.message});
     }
 
@@ -147,19 +149,6 @@ router.get('/:id', getReview, (req, res) => {
     res.json(res.review)
 });
 
-async function getReview(req, res, next) {
-    let review;
-    try {
-        review = await Review.findById(req.params.id);
-        if (review == null) {
-            return res.status(404).json({message: "cannot find"});
-        }
-    } catch (err){
-        return res.status(500).json({message: "YO" + err.message});
-    }
-    res.review = review;
-    next();
-}
 
 async function getReview(req, res, next) {
     let review;
@@ -169,7 +158,7 @@ async function getReview(req, res, next) {
             return res.status(404).json({message: "cannot find"});
         }
     } catch (err){
-        return res.status(500).json({message: "YO" + err.message});
+        return res.status(500).json({message: err.message});
     }
     res.review = review;
     next();
